@@ -1,0 +1,37 @@
+[package]
+name = "mc-frontdoor"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.80"
+description = "Wake-on-join front door for Minecraft servers that sleep when nobody plays (Java and Bedrock/Geyser)"
+license = "MIT"
+repository = "https://github.com/Brett-D/mc-frontdoor"
+readme = "README.md"
+keywords = ["minecraft", "geyser", "wake-on-lan", "proxy", "bedrock"]
+categories = ["network-programming", "games"]
+
+[dependencies]
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "io-util", "time", "sync", "signal", "fs", "process"] }
+hyper = { version = "1", features = ["server", "client", "http1", "http2"] }
+hyper-util = { version = "0.1", features = ["tokio", "server", "server-auto", "client-legacy", "http1", "http2"] }
+http-body-util = "0.1"
+bytes = "1"
+tokio-rustls = { version = "0.26", default-features = false, features = ["ring", "tls12", "logging"] }
+rustls-pemfile = "2"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+jsonwebtoken = "9"
+base64 = "0.22"
+uuid = { version = "1", features = ["v4"] }
+rand = "0.8"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", default-features = false, features = ["fmt", "env-filter", "ansi"] }
+anyhow = "1"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+opt-level = "s"
+panic = "abort"

@@ -1,0 +1,32 @@
+# mc-frontdoor settings (/etc/mc-frontdoor.conf, or an --env-file for Docker). Full list: README.md.
+
+# The real server, as the front door reaches it (often a private address).
+BACKEND_HOST=10.0.0.4
+BACKEND_PORT=25565
+# Where players are sent once it's up: the address *players* use to reach the real server.
+TRANSFER_HOST=203.0.113.10
+TRANSFER_PORT=25565
+
+# How to start it: portal | http | azure_vm
+WAKE_METHOD=http
+WAKE_URL=https://example.com/start-my-server
+WAKE_HTTP_METHOD=POST
+WAKE_HEADERS=Authorization: Bearer change-me
+#WAKE_BODY={"server":"minecraft"}
+
+# Who may wake it: whitelist/ops files (JSON) and/or a URL returning a list or {"players":[...]}.
+#ALLOW_FILE=/srv/minecraft/whitelist.json /srv/minecraft/ops.json
+#ALLOW_URL=https://example.com/allowed.json
+#ALLOW_URL_HEADERS=Authorization: Bearer change-me
+#ALLOW_ANYONE=false
+
+# Optional extras
+# A web map (BlueMap/Dynmap) relayed through the front door; shows a "map is asleep" page while off:
+#RELAY_PORTS=8100
+#MAP_PORT=8100
+# Geyser with NetherNet: server list, wake on join, HTTPS signaling with a certificate:
+#BEDROCK_PORTS=19132
+#TLS_CERT_FILE=/etc/mc-frontdoor/fullchain.pem
+#TLS_KEY_FILE=/etc/mc-frontdoor/privkey.pem
+#WAKE_TIMEOUT=600
+#LOG_LEVEL=info

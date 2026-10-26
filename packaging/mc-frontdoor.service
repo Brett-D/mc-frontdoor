@@ -1,0 +1,24 @@
+[Unit]
+Description=mc-frontdoor: wake-on-join front door for Minecraft (https://github.com/Brett-D/mc-frontdoor)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/opt/mc-frontdoor/mc-frontdoor
+EnvironmentFile=/etc/mc-frontdoor.conf
+DynamicUser=yes
+StateDirectory=mc-frontdoor
+Restart=always
+RestartSec=3
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+MemoryMax=256M
+# For Bedrock over HTTPS, hand the certificate to the service without making it readable by anyone else
+# (put these two lines in a drop-in: systemctl edit mc-frontdoor):
+#LoadCredential=tls.crt:/etc/letsencrypt/live/mc.example.com/fullchain.pem
+#LoadCredential=tls.key:/etc/letsencrypt/live/mc.example.com/privkey.pem
+
+[Install]
+WantedBy=multi-user.target
