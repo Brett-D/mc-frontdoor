@@ -21,7 +21,7 @@ RUN case "$TARGETARCH" in \
  && rustup target add "$(cat /arch)-unknown-linux-musl"
 COPY Cargo.toml Cargo.lock ./
 COPY src ./src
-RUN --mount=type=cache,target=/usr/local/cargo/registry \
+RUN --mount=type=cache,target=/usr/local/cargo/registry,sharing=locked \
     --mount=type=cache,target=/src/target,id=mc-frontdoor-target-$TARGETARCH \
     arch="$(cat /arch)" \
  && cargo zigbuild --release --locked --target "$arch-unknown-linux-musl" \
@@ -40,7 +40,7 @@ RUN apt-get update \
  && /venv/bin/pip install --no-cache-dir "httpx[http2]"
 WORKDIR /src
 COPY . .
-RUN --mount=type=cache,target=/usr/local/cargo/registry \
+RUN --mount=type=cache,target=/usr/local/cargo/registry,sharing=locked \
     cargo test --locked \
  && cargo build --locked \
  && /venv/bin/python tests/e2e.py target/debug/mc-frontdoor
